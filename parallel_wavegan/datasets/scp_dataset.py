@@ -9,7 +9,7 @@ import logging
 
 from multiprocessing import Manager
 
-import kaldiio
+#import kaldiio
 import numpy as np
 
 from torch.utils.data import Dataset
@@ -28,7 +28,8 @@ def _get_feats_scp_loader(feats_scp):
         value_1, value_2 = value.split(":")
         if value_1.endswith(".ark"):
             # kaldi-ark case: utt_id_1 /path/to/utt_id_1.ark:index
-            return kaldiio.load_scp(feats_scp)
+            raise RuntimeError("kaldiioを使用することはできません")
+            #return kaldiio.load_scp(feats_scp)
         elif value_1.endswith(".h5"):
             # hdf5 case with path in hdf5: utt_id_1 /path/to/utt_id_1.h5:feats
             return HDF5ScpLoader(feats_scp)
@@ -73,7 +74,8 @@ class AudioMelSCPDataset(Dataset):
 
         """
         # load scp as lazy dict
-        audio_loader = kaldiio.load_scp(wav_scp, segments=segments)
+        #audio_loader = kaldiio.load_scp(wav_scp, segments=segments)
+        raise RuntimeError("kaldiioを使用することはできません")
         mel_loader = _get_feats_scp_loader(feats_scp)
         audio_keys = list(audio_loader.keys())
         mel_keys = list(mel_loader.keys())
@@ -196,7 +198,8 @@ class AudioSCPDataset(Dataset):
 
         """
         # load scp as lazy dict
-        audio_loader = kaldiio.load_scp(wav_scp, segments=segments)
+        #audio_loader = kaldiio.load_scp(wav_scp, segments=segments)
+        raise RuntimeError("kaldiioを使用することはできません")
         audio_keys = list(audio_loader.keys())
 
         # filter by threshold
